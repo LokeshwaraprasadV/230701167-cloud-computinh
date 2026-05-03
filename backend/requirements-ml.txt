@@ -1,0 +1,6 @@
+# Optional ML dependencies (install only if you have a compatible Python)
+#
+# TensorFlow typically supports Python 3.10–3.12. If you're on Python 3.13,
+# use the backend in demo mode (no TF) or install Python 3.11 for ML inference.
+
+tensorflow==2.18.0
