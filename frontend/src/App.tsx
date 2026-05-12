@@ -23,7 +23,7 @@ type PredictResponse = {
 
 function getApiBase(): string {
   const v = (import.meta as any).env?.VITE_API_BASE as string | undefined
-  return (v && v.trim()) || 'http://localhost:8000'
+  return (v && v.trim()) || 'https://diabetes-backend.orangebeach-dbc4abf8.centralindia.azurecontainerapps.io'
 }
 
 function riskColor(label: string): string {
