@@ -10,7 +10,6 @@ env:
   ACR_NAME: diabetesacr7634
   RESOURCE_GROUP: diabetes-rg
   BACKEND_APP_NAME: diabetes-backend
-  FRONTEND_APP_NAME: diabetes-frontend
 
 jobs:
   # ── Job 1: Build & push backend image ──────────────────────────────────────
@@ -69,14 +68,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: frontend
+
+      - name: Build frontend
+        run: VITE_API_BASE=${{ secrets.BACKEND_URL }} npm run build
+        working-directory: frontend
+
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "frontend"
-          output_location: "dist"
-          app_build_command: "npm run build"
-        env:
-          VITE_API_BASE: ${{ secrets.BACKEND_URL }}
+          app_location: "frontend/dist"
+          output_location: ""
+          skip_app_build: true
