@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_NAME=Eye ROI Analyzer for Diabetic Retinopathy
+      - ENVIRONMENT=production
+      - FRONTEND_ORIGIN=http://localhost:80
+      - LOCAL_STORAGE_DIR=storage
+      - LOCAL_DB_JSON_PATH=storage/db.json
+      - MODEL_PATH=app/models/dr_model.keras
+      - REPORTS_DIR=storage/reports
+      # Uncomment and fill these when you have Azure resources:
+      # - AZURE_STORAGE_CONNECTION_STRING=
+      # - AZURE_BLOB_CONTAINER_NAME=retina-images
+      # - COSMOS_MONGO_URI=
+    volumes:
+      - backend_storage:/app/storage
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_BASE=http://localhost:8000
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  backend_storage:
