@@ -90,4 +90,4 @@ jobs:
         run: |
           swa deploy ./frontend/dist \
             --deployment-token ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }} \
-            --env production
+            --environment production
