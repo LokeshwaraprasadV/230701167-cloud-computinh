@@ -1,0 +1,12 @@
+# Copy this file to terraform.tfvars and fill in your values
+# terraform.tfvars is gitignored — never commit real values
+
+subscription_id         = "f51209db-9769-4855-ac2c-2d9c67f45961"
+project_name            = "diabetes"
+resource_group_name     = "diabetes-rg"
+location                = "centralindia"
+container_apps_location = "centralindia"
+static_web_app_location = "eastasia"
+acr_name                = "diabetesacr7634"
+storage_account_name    = "diabetesstorage19897"
+blob_container_name     = "retina-images"
